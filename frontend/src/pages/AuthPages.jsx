@@ -87,7 +87,7 @@ export const Login = () => {
         >
           {loading ? <Loader2 className="animate-spin" size={20} /> : (
             <>
-              <span>Sign In</span>
+              <span>Login</span>
               <ArrowRight size={18} />
             </>
           )}

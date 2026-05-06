@@ -12,17 +12,25 @@ from database import engine, get_db
 # Create tables
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="AI Student Companion API")
+app = FastAPI(title="AI Student Companion API", redirect_slashes=True)
 
-# Robust CORS Configuration (Compatible with Wildcard)
+# Robust CORS Configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=False, # Changed to False to allow wildcard origins
+    allow_credentials=False,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
     expose_headers=["*"],
 )
+
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "API is running"}
+
+@app.get("/api")
+async def api_root():
+    return {"status": "ok", "message": "API base is running"}
 
 # --- AUTH ROUTES ---
 

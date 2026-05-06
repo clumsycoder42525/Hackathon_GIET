@@ -12,7 +12,21 @@ from database import engine, get_db
 # Create tables
 models.Base.metadata.create_all(bind=engine)
 
+from fastapi import Request
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 app = FastAPI(title="AI Student Companion API", redirect_slashes=True)
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    logger.info(f"Incoming request: {request.method} {request.url.path}")
+    response = await call_next(request)
+    logger.info(f"Response status: {response.status_code}")
+    return response
 
 # Robust CORS Configuration
 app.add_middleware(

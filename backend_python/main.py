@@ -34,7 +34,9 @@ async def api_root():
 
 # --- AUTH ROUTES ---
 
+# Signup route with and without /api prefix
 @app.post("/api/auth/signup", response_model=schemas.Token)
+@app.post("/auth/signup", response_model=schemas.Token)
 def signup(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(models.User).filter(models.User.email == user_in.email).first()
     if db_user:
@@ -54,6 +56,7 @@ def signup(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
     return {"access_token": access_token, "token_type": "bearer", "user": new_user}
 
 @app.post("/api/auth/login", response_model=schemas.Token)
+@app.post("/auth/login", response_model=schemas.Token)
 def login(user_in: schemas.UserLogin, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.email == user_in.email).first()
     if not user or not auth.verify_password(user_in.password, user.hashed_password):

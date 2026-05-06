@@ -14,11 +14,11 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="AI Student Companion API")
 
-# Robust CORS Configuration
+# Robust CORS Configuration (Compatible with Wildcard)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False, # Changed to False to allow wildcard origins
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
     expose_headers=["*"],

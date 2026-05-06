@@ -61,6 +61,7 @@ def login(user_in: schemas.UserLogin, db: Session = Depends(get_db)):
 # --- PROTECTED FEATURE ROUTES ---
 
 @app.post("/api/chat")
+@app.post("/chat")
 async def ai_chat(
     chat_req: schemas.ChatRequest, 
     db: Session = Depends(get_db),
@@ -95,6 +96,7 @@ async def ai_chat(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/generate-notes")
+@app.post("/generate-notes")
 async def generate_notes(
     text: Optional[str] = Form(None),
     title: Optional[str] = Form(None),
@@ -133,6 +135,7 @@ async def generate_notes(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/transcribe")
+@app.post("/transcribe")
 async def transcribe(
     audio: UploadFile = File(...),
     current_user: models.User = Depends(auth.get_current_user)
@@ -166,6 +169,7 @@ async def transcribe(
         return {"error": str(e), "details": "Check server logs"}
 
 @app.post("/api/analyze-health")
+@app.post("/analyze-health")
 async def analyze_health(
     wellbeing_data: dict, # Basic dict for now
     db: Session = Depends(get_db),
@@ -182,6 +186,7 @@ async def analyze_health(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/focus-report")
+@app.post("/focus-report")
 async def focus_report(
     req: schemas.FocusReportRequest,
     db: Session = Depends(get_db),
@@ -210,6 +215,7 @@ async def focus_report(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/user/dashboard")
+@app.get("/user/dashboard")
 def get_dashboard(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(auth.get_current_user)

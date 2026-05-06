@@ -8,7 +8,7 @@ import NotesGen from './pages/NotesGen';
 import Wellbeing from './pages/Wellbeing';
 import FocusMode from './pages/FocusMode';
 import MemoryTimeline from './pages/MemoryTimeline';
-import { Login, Signup } from './pages/AuthPages';
+import { Login } from './pages/AuthPages';
 import ProtectedRoute from './components/ProtectedRoute';
 import useAuthStore from './store/useAuthStore';
 
@@ -39,7 +39,6 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
 
           {/* Protected Routes */}
           <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />

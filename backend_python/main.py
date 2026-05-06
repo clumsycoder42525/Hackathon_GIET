@@ -48,27 +48,6 @@ async def api_root():
 
 # --- AUTH ROUTES ---
 
-# Signup route with and without /api prefix
-@app.post("/api/auth/signup", response_model=schemas.Token)
-@app.post("/auth/signup", response_model=schemas.Token)
-def signup(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = db.query(models.User).filter(models.User.email == user_in.email).first()
-    if db_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
-    
-    hashed_password = auth.get_password_hash(user_in.password)
-    new_user = models.User(
-        name=user_in.name,
-        email=user_in.email,
-        hashed_password=hashed_password
-    )
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    
-    access_token = auth.create_access_token(data={"id": new_user.id})
-    return {"access_token": access_token, "token_type": "bearer", "user": new_user}
-
 @app.post("/api/auth/login", response_model=schemas.Token)
 @app.post("/auth/login", response_model=schemas.Token)
 def login(user_in: schemas.UserLogin, db: Session = Depends(get_db)):
